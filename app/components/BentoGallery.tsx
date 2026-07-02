@@ -10,6 +10,10 @@ import styles from "./BentoGallery.module.css";
 
 gsap.registerPlugin(ScrollTrigger, Flip, ExpoScaleEase);
 
+// Mobile browsers fire resize when the URL bar shows/hides on scroll; don't let
+// that trigger a full refresh (it's what makes pinned content flicker).
+ScrollTrigger.config({ ignoreMobileResize: true });
+
 /**
  * Scrubbed bento gallery (GSAP Flip + ScrollTrigger).
  * The grid starts as a compact centered bento, and as the pinned section is
@@ -92,10 +96,23 @@ export default function BentoGallery() {
     };
 
     createTween();
-    window.addEventListener("resize", createTween);
+
+    // Only rebuild on a real width change (orientation / desktop resize).
+    // Height-only changes from the mobile URL bar are ignored so the pinned
+    // gallery and its text don't flicker while scrolling.
+    let lastWidth = window.innerWidth;
+    let resizeTimer: number | undefined;
+    const onResize = () => {
+      if (window.innerWidth === lastWidth) return;
+      lastWidth = window.innerWidth;
+      window.clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(createTween, 200);
+    };
+    window.addEventListener("resize", onResize);
 
     return () => {
-      window.removeEventListener("resize", createTween);
+      window.removeEventListener("resize", onResize);
+      window.clearTimeout(resizeTimer);
       flipCtx?.revert();
     };
   }, []);
