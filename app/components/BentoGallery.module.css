@@ -63,7 +63,15 @@
   text-align: center;
   color: #fff;
   pointer-events: none;
-  text-shadow: 0 2px 20px rgba(16, 27, 45, 0.55);
+  text-shadow: 0 2px 24px rgba(16, 27, 45, 0.85), 0 1px 4px rgba(16, 27, 45, 0.6);
+  /* Soft dark scrim behind the copy so it stays legible over bright footage,
+     while the edges stay clear to keep the scene visible. */
+  background: radial-gradient(
+    ellipse 60% 55% at 50% 50%,
+    rgba(16, 27, 45, 0.6) 0%,
+    rgba(16, 27, 45, 0.35) 45%,
+    transparent 75%
+  );
   /* Hidden until GSAP reveals it — prevents a flash before hydration */
   opacity: 0;
 }
