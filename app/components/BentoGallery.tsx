@@ -107,7 +107,15 @@ export default function BentoGallery() {
           {bentoImages.map((media) => (
             <div className={styles.item} key={media.src ?? media.video?.[0]}>
               {media.video ? (
-                <video autoPlay muted loop playsInline preload="metadata" aria-label={media.alt}>
+                <video
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  poster={media.poster}
+                  aria-label={media.alt}
+                >
                   {media.video.map((src) => (
                     <source
                       key={src}

@@ -147,6 +147,8 @@ export interface BentoMedia {
   src?: string;
   /** Video sources (webm first, then mp4) for the center cell. */
   video?: string[];
+  /** Poster frame shown before the video decodes (video entries only). */
+  poster?: string;
   alt: string;
 }
 
@@ -156,7 +158,11 @@ export interface BentoMedia {
 export const bentoImages: BentoMedia[] = [
   { src: unsplash("1512453979798-5ea266f8880c", 700, 1000), alt: "Dubai Marina skyline at dusk" },
   { src: unsplash("1600596542815-ffad4c1539a9", 700, 1000), alt: "Sunlit residence interior with sea views" },
-  { video: ["/hero-emaar-night.webm", "/hero-emaar-night.mp4"], alt: "Emaar Beachfront at night" },
+  {
+    video: ["/hero-emaar-night.webm", "/hero-emaar-night.mp4"],
+    poster: "/hero-night-poster.jpg",
+    alt: "Emaar Beachfront at night",
+  },
   { src: unsplash("1507525428034-b723cf961d3e", 700, 1000), alt: "Private white-sand beach at Emaar Beachfront" },
   { src: unsplash("1571896349842-33c89424de2d", 700, 1000), alt: "Resort-style sun deck and cabanas" },
   { src: unsplash("1613490493576-7fde63acd811", 700, 1000), alt: "Island living-room lifestyle" },
@@ -164,7 +170,9 @@ export const bentoImages: BentoMedia[] = [
   { src: unsplash("1519046904884-53103b34b206", 700, 1000), alt: "Sunset over the beachfront promenade" },
 ];
 
-export const heroPoster = unsplash("1518684079-3c830dcef090", 1920, 1080);
+// A still of the hero video's first frame, so the fallback matches the video
+// exactly and there's no image-to-video swap on first load.
+export const heroPoster = "/hero-poster.jpg";
 
 export const showcase = [
   {

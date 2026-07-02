@@ -26,18 +26,21 @@ export default function Hero() {
         className="object-cover"
       />
 
-      {/* Looping drone video, desktop only for performance. Drop compressed files at
-          public/hero-emaar.mp4. The poster image shows until (or unless) it loads.
-          MP4/H.264 plays in every browser, so a single source covers everyone. */}
+      {/* Looping drone video on all screens. WebM first (lighter, good for
+          mobile data); MP4 fallback for browsers without WebM. The poster is
+          the video's own first frame, so the fallback Image above matches it
+          and there's no visible swap once the video decodes. */}
       <video
-        className="absolute inset-0 hidden h-full w-full object-cover md:block"
+        className="absolute inset-0 h-full w-full object-cover"
         autoPlay
         muted
         loop
         playsInline
-        preload="metadata"
+        preload="auto"
+        poster="/hero-poster.jpg"
         aria-hidden
       >
+        <source src="/hero-emaar.webm" type="video/webm" />
         <source src="/hero-emaar.mp4" type="video/mp4" />
       </video>
 
